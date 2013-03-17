@@ -1,29 +1,44 @@
 var PureController = {
 
     config: {
-        fan1: 100,
-        fan2: 120,
-        fog1: 101,
-        fog2: 121,
-        par1: 103,
-        par2: 104,
-        acl11: 1,
-        acl12: 2,
-        acl13: 3,
-        acl14: 4,
-        acl21: 5,
-        acl22: 6,
-        acl23: 7,
-        acl24: 9,
+        fan1: 1,
+        fan2: 2,
+        fog1: 3,
+        fog2: 4,
+        par1: 5,
+        par2: 6,
+        acl11: 7,
+        acl12: 8,
+        acl13: 9,
+        acl14: 10,
+        acl21: 11,
+        acl22: 12,
+        acl23: 13,
+        acl24: 14,
 
-        led11: 200,
-        led12: 201,
-        led13: 203,
+        led11R: 201,
+        led11G: 202,
+        led11B: 203,
+        led12R: 204,
+        led12G: 205,
+        led13R: 206,
+        led13R: 207,
+        led13G: 208,
+        led13B: 209,
 
-        led21: 204,
-        led22: 205,
-        led23: 206
+        led21R: 211,
+        led21G: 212,
+        led21B: 213,
+        led22R: 214,
+        led22G: 215,
+        led23R: 216,
+        led23R: 217,
+        led23G: 218,
+        led23B: 219
     },
+
+    outputs: new Array(512),
+    bindings: {},
 
     init: function() {
 
@@ -59,6 +74,21 @@ var PureController = {
             PureController.fadeLed(values, time);
         });
 
+        $('*[data-type=output]').each(function() {
+            var key = $(this).data('bind');
+            if (!PureController.bindings[key]) {
+                PureController.bindings[key] = [ this ];
+            } else {
+                PureController.bindings[key].push(this);
+            }
+
+        })
+
+        for(var key in PureController.config) {
+
+            PureController.setValue(key, 0);
+
+        }
 
     },
 
@@ -66,11 +96,31 @@ var PureController = {
         var r = parseInt($('input[type=range]#led_r').val()),
             g = parseInt($('input[type=range]#led_g').val()),
             b = parseInt($('input[type=range]#led_b').val())
-        $('#rgb-preview').css('background-color', 'rgb('+r+','+g+','+b+')');
+        $('#rgb-preview div').css('background-color', 'rgb('+r+','+g+','+b+')');
     },
 
-    setValue: function(channel, value) {
-        console.log(channel+': '+value);
+    setValue: function(channelName, value) {
+        if (channelName.indexOf(',') >= 0) {
+            var channelNames = channelName.split(',');
+            for(var i = 0;i<channelNames.length;i++) {
+                PureController.setValue(channelNames[i],value);
+            }
+            return;
+        }
+
+        var channel = PureController.config[channelName];
+        PureController.outputs[channel] = value;
+
+        if (PureController.bindings[channelName]) {
+            for(var i=0;i<PureController.bindings[channelName].length;i++) {
+                var element = PureController.bindings[channelName][i];
+                element.style.backgroundColor = 'rgb('+value+','+value+','+value+')';
+            };
+        } else {
+            console.warn('control '+channelName+' not found');
+        }
+
+
     },
 
     _ledFade: false,

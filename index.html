@@ -15,7 +15,7 @@
         <button class="btn btn-xxlarge" data-type="channel" data-id="fog1">Rook</button>
         <button class="btn btn-xxlarge" data-type="channel" data-id="fan1">Fan</button>
         <button class="btn btn-xxlarge" data-type="channel" data-id="par1">Par</button>
-        <button class="btn btn-xxlarge" data-type="channel" data-id="acl1">ACL</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="acl11,acl12,acl13,acl14">ACL</button>
     </div>
 
     <h1>Ego riser 2</h1>
@@ -23,14 +23,14 @@
         <button class="btn btn-xxlarge" data-type="channel" data-id="fog2">Rook</button>
         <button class="btn btn-xxlarge" data-type="channel" data-id="fan2">Fan</button>
         <button class="btn btn-xxlarge" data-type="channel" data-id="par2">Par</button>
-        <button class="btn btn-xxlarge" data-type="channel" data-id="acl2">ACL</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="acl21,acl22,acl23,acl24">ACL</button>
     </div>
 
     <h1>Led</h1>
     <div class="btn-group">
         <button class="btn btn-xxlarge">RGB</button>
         <button class="btn btn-xxlarge">Strobe</button>
-        <button class="btn btn-xxlarge">Vlag</button>
+        <button class="btn btn-xxlarge" data-type="ledpreset" data-fade="1000" data-value="255,0,0,255,255,255,0,0,255">Vlag</button>
     </div>
     <p>
         R: <input type="range" min="0" max="255" value="0" id="led_r" />
@@ -41,7 +41,7 @@
     <p>
         B: <input type="range" min="0" max="255" value="0" id="led_b" />
     </p>
-    <div id="rgb-preview"></div>
+    <p>Direct:</p>
     <div class="btn-group">
         <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,255,255">White</button>
         <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,0,0">Red</button>
@@ -53,6 +53,7 @@
         <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,153,0">Orange</button>
         <button class="btn" data-type="ledpreset" data-fade="0" data-value="0,0,0">Black</button>
     </div>
+    <p>3s Fade:</p>
     <div class="btn-group">
         <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,255,255">White</button>
         <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,0,0">Red</button>
@@ -64,6 +65,34 @@
         <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,153,0">Orange</button>
         <button class="btn" data-type="ledpreset" data-fade="3000" data-value="0,0,0">Black</button>
     </div>
-
+    <h2>Preview</h2>
+    <div id="riser1" class="riser">
+        <div class="acl acl1" data-type="output" data-bind="acl11"></div>
+        <div class="acl acl2" data-type="output" data-bind="acl12"></div>
+        <div class="acl acl3" data-type="output" data-bind="acl13"></div>
+        <div class="acl acl4" data-type="output" data-bind="acl14"></div>
+        <div class="par" data-type="output" data-bind="par1">P</div>
+        <div class="fan" data-type="output" data-bind="fan1">F</div>
+        <div class="fog" data-type="output" data-bind="fog1">R</div>
+    </div>
+    <div id="rgb-preview1" class="rgb-preview">
+        <div class="line1" data-type="output-rgb" data-bind="led11"></div>
+        <div class="line2" data-type="output-rgb" data-bind="led12"></div>
+        <div class="line3" data-type="output-rgb" data-bind="led13"></div>
+    </div>
+    <div id="rgb-preview2" class="rgb-preview">
+        <div class="line1" data-type="output-rgb" data-bind="led21"></div>
+        <div class="line2" data-type="output-rgb" data-bind="led22"></div>
+        <div class="line3" data-type="output-rgb" data-bind="led23"></div>
+    </div>
+    <div id="riser2" class="riser">
+        <div class="acl acl1" data-type="output" data-bind="acl21"></div>
+        <div class="acl acl2" data-type="output" data-bind="acl22"></div>
+        <div class="acl acl3" data-type="output" data-bind="acl23"></div>
+        <div class="acl acl4" data-type="output" data-bind="acl24"></div>
+        <div class="par" data-type="output" data-bind="par2">P</div>
+        <div class="fan" data-type="output" data-bind="fan2">F</div>
+        <div class="fog" data-type="output" data-bind="fog2">R</div>
+    </div>
 </body>
 </html>
