@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Pure Controller</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/zepto.min.js"></script>
+    <script src="js/purecontroller.js"></script>
+</head>
+<body>
+
+    <h1>Ego riser 1</h1>
+    <div class="btn-group">
+        <button class="btn btn-xxlarge" data-type="channel" data-id="fog1">Rook</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="fan1">Fan</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="par1">Par</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="acl1">ACL</button>
+    </div>
+
+    <h1>Ego riser 2</h1>
+    <div class="btn-group">
+        <button class="btn btn-xxlarge" data-type="channel" data-id="fog2">Rook</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="fan2">Fan</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="par2">Par</button>
+        <button class="btn btn-xxlarge" data-type="channel" data-id="acl2">ACL</button>
+    </div>
+
+    <h1>Led</h1>
+    <div class="btn-group">
+        <button class="btn btn-xxlarge">RGB</button>
+        <button class="btn btn-xxlarge">Strobe</button>
+        <button class="btn btn-xxlarge">Vlag</button>
+    </div>
+    <p>
+        R: <input type="range" min="0" max="255" value="0" id="led_r" />
+    </p>
+    <p>
+        G: <input type="range" min="0" max="255" value="0" id="led_g" />
+    </p>
+    <p>
+        B: <input type="range" min="0" max="255" value="0" id="led_b" />
+    </p>
+    <div id="rgb-preview"></div>
+    <div class="btn-group">
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,255,255">White</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,0,0">Red</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="0,255,0">Green</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="0,0,255">Blue</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="0,255,255">Cyan</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,0,255">Magenta</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,255,0">Yellow</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="255,153,0">Orange</button>
+        <button class="btn" data-type="ledpreset" data-fade="0" data-value="0,0,0">Black</button>
+    </div>
+    <div class="btn-group">
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,255,255">White</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,0,0">Red</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="0,255,0">Green</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="0,0,255">Blue</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="0,255,255">Cyan</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,0,255">Magenta</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,255,0">Yellow</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="255,153,0">Orange</button>
+        <button class="btn" data-type="ledpreset" data-fade="3000" data-value="0,0,0">Black</button>
+    </div>
+
+</body>
+</html>
