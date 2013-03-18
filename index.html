@@ -5,7 +5,6 @@
     <title>Pure Controller</title>
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/zepto.min.js"></script>
     <script src="js/purecontroller.js"></script>
 </head>
 <body>
@@ -94,5 +93,38 @@
         <div class="fan" data-type="output" data-bind="fan2">F</div>
         <div class="fog" data-type="output" data-bind="fog2">R</div>
     </div>
+
+<script type="text/javascript">
+    window.onload = function() {
+        var controller = new PureController({
+            mapping: {
+                fan1: { type: 'dimmer', address: 1 },
+                fan2: { type: 'dimmer', address: 2 },
+                fog1: { type: 'dimmer', address: 3 },
+                fog2: { type: 'dimmer', address: 4 },
+                par1: { type: 'dimmer', address: 5 },
+                par2: { type: 'dimmer', address: 6 },
+                acl11: { type: 'dimmer', address: 7 },
+                acl12: { type: 'dimmer', address: 8 },
+                acl13: { type: 'dimmer', address: 9 },
+                acl14: { type: 'dimmer', address: 10 },
+                acl21: { type: 'dimmer', address: 11 },
+                acl22: { type: 'dimmer', address: 12 },
+                acl23: { type: 'dimmer', address: 13 },
+                acl24: { type: 'dimmer', address: 14 },
+
+                led11: { type: 'rgb', address: 201 },
+                led12: { type: 'rgb', address: 208 },
+                led13: { type: 'rgb', address: 209 },
+
+                led21: { type: 'rgb', address: 211 },
+                led22: { type: 'rgb', address: 218 },
+                led23: { type: 'rgb', address: 219 }
+            },
+            interface: new PureDummyInterface()
+        });
+        controller.init();
+    };
+</script>
 </body>
 </html>
