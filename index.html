@@ -121,6 +121,9 @@
                 led22: { type: 'rgb', address: 218 },
                 led23: { type: 'rgb', address: 219 }
             },
+            groups: {
+                leds: [ 'led11','led12','led13','led21','led22','led23']
+            },
             interface: new PureDummyInterface()
         });
         controller.init();
