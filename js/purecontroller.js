@@ -13,6 +13,7 @@ PureController.prototype.init = function() {
     this.bindDimmerButtons();
     this.bindDimmerOutputs();
     this.bindRgbPresetButtons();
+    this.bindRgbAnims();
     this.bindRgbOutputs();
 
     console.log('Ready.');
@@ -80,6 +81,45 @@ PureController.prototype.bindRgbPresetButtons = function() {
 
     }
 }
+
+PureController.prototype.bindRgbAnims = function() {
+    var self = this;
+
+    var buttons = document.querySelectorAll('[data-type=anim]');
+
+    for(var i=0;i<buttons.length;i++) {
+        var button = buttons[i];
+
+        button.addEventListener('mousedown', function(e) {
+
+            var button = e.target;
+            var effect = button.getAttribute('data-effect')
+            var params = button.getAttribute('data-params');
+            var group = button.getAttribute('data-group');
+            self.startRgbAnimation(group, effect, params);
+
+        });
+        button.addEventListener('dblclick', function(e) {
+
+            var button = e.target;
+            var effect = button.getAttribute('data-effect')
+            var params = button.getAttribute('data-params');
+            var group = button.getAttribute('data-group');
+            self.startRgbAnimation(group, effect, params);
+            e.target.classList.add('btn-primary');
+
+        });
+        button.addEventListener('mouseup', function(e) {
+
+            var button = e.target;
+            var effect = button.getAttribute('data-effect')
+            var group = button.getAttribute('data-group');
+            self.stopRgbAnimation(group, effect);
+            e.target.classList.remove('btn-primary');
+
+        });
+    }
+};
 
 PureController.prototype.bindDimmerOutputs = function() {
 
@@ -219,6 +259,24 @@ PureController.prototype.startRgbTransformation = function(newValue, fadeTime) {
     fn();
 };
 
+PureController.prototype.startRgbAnimation = function(groupName, effectName, params) {
+    var baseRgb = this._getCurrentRgb(groupName);
+
+    this.stopRgbAnimation(groupName, effectName);
+
+    var effect = new PureController.fx[effectName](this, groupName, baseRgb, params);
+    this.animations[groupName+'.'+effectName] = effect;
+    effect.start();
+};
+
+PureController.prototype.stopRgbAnimation = function(groupName, effectName) {
+
+    if (this.animations[groupName+'.'+effectName]) {
+        this.animations[groupName+'.'+effectName].stop();
+    }
+
+};
+
 PureController.prototype.setRgbPreset = function(value) {
     var values = this._parseRgbValue(value);
 
@@ -296,9 +354,75 @@ var PureDummyInterface = function() {
     }
 };
 PureDummyInterface.prototype.set = function(address, value) {
-    this.data[address] = value;
+    if (this.data[address] !== value) {
+        this.data[address] = value;
+    }
+    //if (address == 210) console.log(address+'>'+this.data[address]);
 }
 
 PureDummyInterface.prototype.get = function(address) {
+    //if (address == 210) console.log(address+'<'+this.data[address]);
     return this.data[address];
+}
+
+PureController.fx = {};
+PureController.fx.strobe = function(controller, groupName, baseRgb, params) {
+    var timer = false, step = false;
+
+    params = params.split(',');
+    var interval = parseInt(params[0]),
+        black = controller._parseRgbValue(params[1]);
+
+    return {
+        start: function() {
+            timer = window.setInterval(function() {
+
+                if (step) {
+                    controller.setRgbPreset(black);
+                } else {
+                    controller.setRgbPreset(baseRgb);
+                }
+                step = !step;
+
+            }, interval);
+        },
+        stop: function() {
+
+            if (timer) {
+                window.clearInterval(timer);
+            }
+            controller.setRgbPreset(baseRgb);
+        }
+    };
+}
+PureController.fx.marquee = function(controller, groupName, baseRgb, params) {
+    params = params.split('|');
+
+    var interval = parseInt(params[0]),
+        values = params[2].split(','),
+        dir = (values.length + parseInt(params[1])) % values.length,
+        steps = values.length,
+        timer = false,
+        step = 0;
+
+    return {
+        start: function() {
+            timer = window.setInterval(function() {
+
+                var v = [];
+                for(i=0;i<values.length;i++) {
+                    v.push(values[(step+i) % steps]);
+                }
+                controller.setRgbPreset(v);
+                step = (step+dir) % steps;
+
+            }, interval);
+        },
+        stop: function() {
+            if (timer) {
+                window.clearInterval(timer);
+            }
+            controller.setRgbPreset(baseRgb);
+        }
+    }
 }

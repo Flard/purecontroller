@@ -26,9 +26,10 @@
 
     <h1>Led</h1>
     <div class="btn-group">
-        <button class="btn btn-xxlarge">RGB</button>
-        <button class="btn btn-xxlarge">Strobe</button>
-
+        <button class="btn btn-xxlarge" data-type="anim" data-effect="strobe" data-group="leds" data-params="30,#000000">Strobe (30ms,black)</button>
+        <button class="btn btn-xxlarge" data-type="anim" data-effect="strobe" data-group="leds" data-params="50,#ffffff">Strobe (50ms,white)</button>
+        <button class="btn btn-xxlarge" data-type="anim" data-effect="marquee" data-group="leds" data-params="200|1|#ffff00,#ff0000,#ff0000,#ff0000,#ff0000,#ff0000">Loop (ge/ro)</button>
+        <button class="btn btn-xxlarge" data-type="anim" data-effect="marquee" data-group="leds" data-params="200|-1|#ffff00,#ff0000,#ff0000,#ff0000,#ff0000,#ff0000">Loop (ge/ro)</button>
     </div>
     <p>Direct:</p>
     <div class="btn-group">
