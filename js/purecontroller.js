@@ -202,9 +202,9 @@ PureController.prototype.startRgbTransformation = function(newValue, fadeTime) {
         for(var i=0;i<size;i++) {
 
             var p = (1/steps) * step,
-                r = (to[i][0] * p) + (from[i][0] * (1-p)),
-                g = (to[i][1] * p) + (from[i][1] * (1-p)),
-                b = (to[i][2] * p) + (from[i][2] * (1-p));
+                r = Math.round((to[i][0] * p) + (from[i][0] * (1-p))),
+                g = Math.round((to[i][1] * p) + (from[i][1] * (1-p))),
+                b = Math.round((to[i][2] * p) + (from[i][2] * (1-p)));
             values[i] = [r,g,b];
         }
         self.setRgbPreset(values);
