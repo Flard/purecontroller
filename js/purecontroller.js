@@ -2,7 +2,8 @@ var PureController = function(config) {
     this.config = config;
 
     this.bindings = {
-        dimmer: {}
+        dimmer: {},
+        rgb: {}
     }
 };
 
@@ -13,6 +14,7 @@ PureController.prototype.init = function() {
     this.bindDimmerButtons();
     this.bindDimmerOutputs();
     this.bindRgbPresetButtons();
+    this.bindRgbOutputs();
 };
 
 PureController.prototype.bindDimmerButtons = function() {
@@ -95,6 +97,26 @@ PureController.prototype.bindDimmerOutputs = function() {
 
 }
 
+PureController.prototype.bindRgbOutputs = function() {
+    var self = this;
+    var outputs = document.querySelectorAll('[data-type=output-rgb]');
+
+    for(var i=0; i<outputs.length; i++) {
+
+        var outputEl = outputs[i];
+        var channelName = outputEl.getAttribute('data-bind');
+
+        if (typeof this.bindings.rgb[channelName] === 'undefined') {
+            this.bindings.rgb[channelName] = [outputEl];
+        } else {
+            this.bindings.rgb[channelName].push(outputEl);
+        }
+
+        outputEl.style.backgroundColor = 'black';
+    }
+
+}
+
 PureController.prototype.setDimmerValueByName = function(channelName, newValue) {
 
     // Test for array
@@ -126,41 +148,64 @@ PureController.prototype.setDimmerValueByName = function(channelName, newValue) 
 
 PureController.prototype.setRgbPreset = function(value) {
     var values = value.split(',');
-    console.log(values);
-    if (values.length = 1) {
-        values = [value, value, value];
-    }
-    while(values.length < 3) {
-        values.push(values[0]);
-    }
-    if (values.length <= 3) {
-        // all six same
-        for(i=0;i<5;i++) {
+    if (values.length == 1) {
+        while(values.length < 3) {
             values.push(values[0]);
-            values.push(values[1]);
-            values.push(values[2]);
         }
     }
-    while(values.length < 6) {
-        values.push(values[0]);
+    if (values.length == 2) {
+        var v1 = values[0];
+        var v2 = values[1];
+        values = [v1, v1, v1, v2, v2, v2];
     }
-    if (values.length <= 6) {
-        // 0 1 2
-        values.splice(3, 6, values[0], values[1], values[2], values[0], values[1], values[2]);
-        // 3 4 5
-        // 6 7 8
 
-        // 9 10 11
-        values.push(values[9]); values.push(values[10]); values.push(values[11]);
-        values.push(values[9]); values.push(values[10]); values.push(values[11]);
+    if (values.length == 3) {
+        for(var i=0;i<3;i++) {
+            values.push(values[i]);
+        }
     }
 
     var groupName = 'leds';
     var groupNames = this.config.groups[groupName];
+    for(var i=0;i<groupNames.length;i++) {
 
-    console.log(values);
+        var color = values[i];
 
+        var elName = groupNames[i];
+        var elements = this.bindings.rgb[elName];
+        var baseAddress = this.config.mapping[elName].address;
+
+        var rgb = this.parseHexRgb(color);
+
+        for(var x=0;x<3;x++) {
+            this.config.interface.set(baseAddress+x, rgb[x]);
+        }
+
+        for (var x=0;x<elements.length;x++) {
+            elements[x].style.backgroundColor = color;
+        }
+    }
 };
+
+PureController.prototype.parseHexRgb = function(str) {
+
+    if (str[0] == '#') {
+        str = str.substr(1);
+        //alert(str)
+    }
+    str = str.toUpperCase();
+
+    var result = [];
+    // Ignore any trailing single digit; I don't know what your needs
+    // are for this case, so you may want to throw an error or convert
+    // the lone digit depending on your needs.
+    while (str.length >= 2) {
+        result.push(parseInt(str.substring(0, 2), 16));
+        str = str.substring(2, str.length);
+    }
+    return result;
+
+}
 
 var PureDummyInterface = function() {
 
