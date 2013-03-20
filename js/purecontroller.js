@@ -5,16 +5,17 @@ var PureController = function(config) {
         dimmer: {},
         rgb: {}
     }
+
+    this.animations = {};
 };
 
 PureController.prototype.init = function() {
-    console.log('Initializing');
-    console.log(this.config);
-
     this.bindDimmerButtons();
     this.bindDimmerOutputs();
     this.bindRgbPresetButtons();
     this.bindRgbOutputs();
+
+    console.log('Ready.');
 };
 
 PureController.prototype.bindDimmerButtons = function() {
@@ -69,7 +70,11 @@ PureController.prototype.bindRgbPresetButtons = function() {
             var value = button.getAttribute('data-value')
             var fadeTime = button.getAttribute('data-fade');
 
-            self.setRgbPreset(value);
+            if (fadeTime == 0) {
+                self.setRgbPreset(value);
+            } else {
+                self.startRgbTransformation(value, fadeTime);
+            }
 
         });
 
@@ -146,8 +151,11 @@ PureController.prototype.setDimmerValueByName = function(channelName, newValue) 
     }
 };
 
-PureController.prototype.setRgbPreset = function(value) {
-    var values = value.split(',');
+PureController.prototype._parseRgbValue = function(values) {
+    if (typeof(values) === 'string') {
+        values = values.split(',');
+    }
+
     if (values.length == 1) {
         while(values.length < 3) {
             values.push(values[0]);
@@ -165,8 +173,60 @@ PureController.prototype.setRgbPreset = function(value) {
         }
     }
 
+    for(var i=0;i<6;i++) {
+        if (typeof values[i] === 'string') {
+            values[i] = this._parseHexRgb(values[i]);
+        }
+    }
+
+    return values;
+};
+
+PureController.prototype.startRgbTransformation = function(newValue, fadeTime) {
+    var self = this;
+
+    var groupName = 'leds';
+    if (self.animations[groupName]) window.clearTimeout(self.animations[groupName]);
+
+    var from = this._getCurrentRgb(groupName);
+    var to = this._parseRgbValue(newValue);
+    var size = from.length;
+
+    var interval = 100;
+    var steps = fadeTime / interval;
+
+    var step = 1;
+    var fn = function() {
+
+        var values = new Array(size);
+        for(var i=0;i<size;i++) {
+
+            var p = (1/steps) * step,
+                r = (to[i][0] * p) + (from[i][0] * (1-p)),
+                g = (to[i][1] * p) + (from[i][1] * (1-p)),
+                b = (to[i][2] * p) + (from[i][2] * (1-p));
+            values[i] = [r,g,b];
+        }
+        self.setRgbPreset(values);
+
+        if (step < steps) {
+            step++;
+            self.animations[groupName] = window.setTimeout(fn, interval);
+        }
+
+    };
+
+    fn();
+};
+
+PureController.prototype.setRgbPreset = function(value) {
+    var values = this._parseRgbValue(value);
+
     var groupName = 'leds';
     var groupNames = this.config.groups[groupName];
+
+    if (this.animations[groupName]) window.clearTimeout(this.animations[groupName]);
+
     for(var i=0;i<groupNames.length;i++) {
 
         var color = values[i];
@@ -175,19 +235,36 @@ PureController.prototype.setRgbPreset = function(value) {
         var elements = this.bindings.rgb[elName];
         var baseAddress = this.config.mapping[elName].address;
 
-        var rgb = this.parseHexRgb(color);
-
         for(var x=0;x<3;x++) {
-            this.config.interface.set(baseAddress+x, rgb[x]);
+            this.config.interface.set(baseAddress+x, color[x]);
         }
 
         for (var x=0;x<elements.length;x++) {
-            elements[x].style.backgroundColor = color;
+            elements[x].style.backgroundColor = this._toCssRgb(color);
         }
     }
 };
 
-PureController.prototype.parseHexRgb = function(str) {
+PureController.prototype._getCurrentRgb = function(groupName) {
+    var groupNames = this.config.groups[groupName];
+
+    var result = [];
+    for(var i=0;i<groupNames.length;i++) {
+
+        var elName = groupNames[i];
+        var baseAddress = this.config.mapping[elName].address;
+
+        var r = this.config.interface.get(baseAddress+0),
+            g = this.config.interface.get(baseAddress+1),
+            b = this.config.interface.get(baseAddress+2);
+
+        result.push([r,g,b]);
+    }
+
+    return result;
+}
+
+PureController.prototype._parseHexRgb = function(str) {
 
     if (str[0] == '#') {
         str = str.substr(1);
@@ -207,9 +284,21 @@ PureController.prototype.parseHexRgb = function(str) {
 
 }
 
-var PureDummyInterface = function() {
+PureController.prototype._toCssRgb = function(color) {
+    return 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+}
 
+var PureDummyInterface = function() {
+    var size = 512;
+    this.data = new Array(size);
+    for(var i=0;i<size;i++) {
+        this.data[i] = 0;
+    }
 };
 PureDummyInterface.prototype.set = function(address, value) {
-    console.log(address+':'+value);
+    this.data[address] = value;
+}
+
+PureDummyInterface.prototype.get = function(address) {
+    return this.data[address];
 }
