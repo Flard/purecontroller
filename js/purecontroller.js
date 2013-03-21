@@ -28,31 +28,38 @@ PureController.prototype.bindDimmerButtons = function() {
 
         var button = buttons[i];
 
-        // Mouse Down
-        button.addEventListener('mousedown', function(e) {
+        var fnDown = function(e) {
 
             var targetId = e.target.getAttribute('data-id');
             self.setDimmerValueByName(targetId, 255);
 
-        });
-
-        // Mouse up
-        button.addEventListener('mouseup', function(e) {
+        };
+        var fnUp = function(e) {
 
             var targetId = e.target.getAttribute('data-id');
             self.setDimmerValueByName(targetId, 0);
             e.target.classList.remove('btn-primary');
 
-        });
+        };
 
-        // Mouse dblclick
-        button.addEventListener('dblclick', function(e) {
+        var fnLock = function(e) {
 
             var targetId = e.target.getAttribute('data-id');
             self.setDimmerValueByName(targetId, 255);
             e.target.classList.add('btn-primary');
 
-        });
+        };
+
+        // Mouse Down
+        button.addEventListener('mousedown', fnDown);
+        button.addEventListener('touchstart', fnDown);
+
+        // Mouse up
+        button.addEventListener('mouseup', fnUp);
+        button.addEventListener('touchend', fnDown);
+
+        // Mouse dblclick
+        button.addEventListener('dblclick', fnLock);
     }
 
 };
@@ -90,7 +97,7 @@ PureController.prototype.bindRgbAnims = function() {
     for(var i=0;i<buttons.length;i++) {
         var button = buttons[i];
 
-        button.addEventListener('mousedown', function(e) {
+        var fnDown = function(e) {
 
             var button = e.target;
             var effect = button.getAttribute('data-effect')
@@ -98,7 +105,22 @@ PureController.prototype.bindRgbAnims = function() {
             var group = button.getAttribute('data-group');
             self.startRgbAnimation(group, effect, params);
 
-        });
+        };
+
+        var fnUp = function(e) {
+
+            var button = e.target;
+            var effect = button.getAttribute('data-effect')
+            var group = button.getAttribute('data-group');
+            self.stopRgbAnimation(group, effect);
+            e.target.classList.remove('btn-primary');
+
+        };
+
+        button.addEventListener('mousedown', fnDown);
+        button.addEventListener('touchstart', fnDown);
+        button.addEventListener('mouseup', fnUp);
+        button.addEventListener('touchend', fnUp);
         button.addEventListener('dblclick', function(e) {
 
             var button = e.target;
@@ -109,15 +131,7 @@ PureController.prototype.bindRgbAnims = function() {
             e.target.classList.add('btn-primary');
 
         });
-        button.addEventListener('mouseup', function(e) {
 
-            var button = e.target;
-            var effect = button.getAttribute('data-effect')
-            var group = button.getAttribute('data-group');
-            self.stopRgbAnimation(group, effect);
-            e.target.classList.remove('btn-primary');
-
-        });
     }
 };
 

@@ -1,10 +1,52 @@
 body {
-    padding: 20px;
+    padding: 0;
+    margin: 0;
+    font: 12pt Verdana
+}
+
+.btn {
+    background-color: lightgray;
+    border-radius: 0;
+}
+
+.control-group {
+    width: 100%;
+    position: relative;
+    height: 140px;
+    border-bottom: 2px solid black;
+}
+
+.control-group h1 {
+    position: absolute;
+    left: -45px;
+    top: 45px;
+    -webkit-transform: rotate(270deg);
+    width: 140px;
+    height: 50px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+.control-group .btn-group {
+    margin-left: 50px;
+    display: table;
+}
+
+.control-group .btn {
+    height: 140px;
+    display: table-cell;
 }
 
 .btn.btn-xxlarge {
     font-size: 50px !important;
     padding: 40px 60px;
+}
+
+.btn span {
+    font-size: 10px;
+    display: block;
 }
 
 .rgb-preview {
