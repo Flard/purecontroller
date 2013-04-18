@@ -38,7 +38,7 @@ PureController.prototype.bindDimmerButtons = function() {
 
             var targetId = e.target.getAttribute('data-id');
             self.setDimmerValueByName(targetId, 0);
-            e.target.classList.remove('btn-primary');
+            e.target.classList.remove('btn-active');
 
         };
 
@@ -46,7 +46,7 @@ PureController.prototype.bindDimmerButtons = function() {
 
             var targetId = e.target.getAttribute('data-id');
             self.setDimmerValueByName(targetId, 255);
-            e.target.classList.add('btn-primary');
+            e.target.classList.add('btn-active');
 
         };
 
@@ -113,7 +113,7 @@ PureController.prototype.bindRgbAnims = function() {
             var effect = button.getAttribute('data-effect')
             var group = button.getAttribute('data-group');
             self.stopRgbAnimation(group, effect);
-            e.target.classList.remove('btn-primary');
+            e.target.classList.remove('btn-active');
 
         };
 
@@ -128,7 +128,7 @@ PureController.prototype.bindRgbAnims = function() {
             var params = button.getAttribute('data-params');
             var group = button.getAttribute('data-group');
             self.startRgbAnimation(group, effect, params);
-            e.target.classList.add('btn-primary');
+            e.target.classList.add('btn-active');
 
         });
 
@@ -375,6 +375,52 @@ PureDummyInterface.prototype.set = function(address, value) {
 }
 
 PureDummyInterface.prototype.get = function(address) {
+    //if (address == 210) console.log(address+'<'+this.data[address]);
+    return this.data[address];
+}
+
+var PureWebSocketInterface = function() {
+    var size = 512;
+    this.data = new Array(size);
+    for(var i=0;i<size;i++) {
+        this.data[i] = 0;
+    }
+    var ws = this.socket = new WebSocket("ws://192.168.0.77:80/");
+    ws.onopen = function() {
+        console.log("Connected to WebSocket");
+        //ws.send("Hello, Arduino");
+        document.getElementById('interface-status').className = 'connected';
+    }
+    ws.onmessage = function(evt) {
+        window.console.log(evt.data);
+
+    };
+    ws.onerror = function(evt) {
+        window.console.log(evt.data);
+       // $("#msg").append("<p> ERROR: "+evt.data+"<p>");
+    };
+    ws.onclose = function() {
+        window.console.log("Websocket Disconnected");
+        //debug("socket closed");
+        document.getElementById('interface-status').className = 'disconnected';
+    };
+
+//    window.setInterval(function() {
+//
+//    }, 500);
+};
+PureWebSocketInterface.prototype.set = function(address, value) {
+    if (this.data[address] !== value) {
+        this.data[address] = value;
+    }
+    this.socket.send(this._toHex(address)+' '+this._toHex(value));
+}
+
+PureWebSocketInterface.prototype._toHex = function(val) {
+    return ((val<16)?'0':'')+val.toString(16);
+}
+
+PureWebSocketInterface.prototype.get = function(address) {
     //if (address == 210) console.log(address+'<'+this.data[address]);
     return this.data[address];
 }

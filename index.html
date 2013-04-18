@@ -100,9 +100,11 @@
         <div class="fan" data-type="output" data-bind="fan2">F</div>
         <div class="fog" data-type="output" data-bind="fog2">R</div>
     </div>
+    <div id="interface-status" class="unknown"></div>
 
 <script type="text/javascript">
     window.onload = function() {
+        var dmxInterface = new PureWebSocketInterface();
         var controller = new PureController({
             mapping: {
                 fan1: { type: 'dimmer', address: 1 },
@@ -134,9 +136,10 @@
             groups: {
                 leds: [ 'led11','led12','led13','led21','led22','led23']
             },
-            interface: new PureDummyInterface()
+            interface: dmxInterface
         });
         controller.init();
+        //dmxInterface.socket.open();
     };
 </script>
 </body>

@@ -9,6 +9,10 @@ body {
     border-radius: 0;
 }
 
+.btn.btn-active {
+    background-color: yellow;
+}
+
 .control-group {
     width: 100%;
     position: relative;
@@ -119,4 +123,22 @@ body {
 
 .riser .fan {
     left: 100px;
+}
+
+#interface-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+}
+
+#interface-status.unknown {
+    background-color: blue;
+}
+#interface-status.disconnected {
+    background-color: red;
+}
+#interface-status.connected {
+    background-color: lime;
 }
