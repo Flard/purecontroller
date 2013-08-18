@@ -3,144 +3,102 @@
 <head>
     <meta charset="utf-8">
     <title>Pure Controller</title>
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/purecontroller.js"></script>
+    <link rel="stylesheet" href="app.css">
+    <script src="purecontroller.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="favicon.png"
+          sizes="180x180"
+          rel="apple-touch-icon">
 </head>
 <body>
-    <div class="control-group">
-        <h1>Riser 1</h1>
-        <div class="btn-group">
-            <button class="btn btn-xxlarge" data-type="channel" data-id="fog1">Rook</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="fan1">Fan</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="par1">Par</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="acl11,acl12,acl13,acl14">ACL</button>
+    <div class="grp sr srr">
+        <div class="btn" data-id="fog1">
+            <div class="lbl">Rook</div>
+            <div class="sbtns">
+                <div class="sbtn" data-type="sbtn-toggle"><span>T</span></div>
+                <div class="sbtn" data-type="sbtn-flash"><span>F</span></div>
+                <div class="sbtn" data-type="sbtn-timed"><span>3s</span></div>
+            </div>
+        </div>
+        <div class="btn" data-type="btn-toggle" data-id="fan1"><span>Fan</span></div>
+        <div class="btn" data-type="btn-toggle" data-id="par1"><span>Par</span></div>
+        <div class="btn" data-type="btn-toggle" data-id="acl1"><span>ACL</span></div>
+    </div>
+    <div class="grp sr srl">
+        <div class="btn" data-id="fog2">
+            <div class="lbl">Rook</div>
+            <div class="sbtns">
+                <div class="sbtn" data-type="sbtn-toggle"><span>T</span></div>
+                <div class="sbtn" data-type="sbtn-flash"><span>F</span></div>
+                <div class="sbtn" data-type="sbtn-timed"><span>3s</span></div>
+            </div>
+        </div>
+        <div class="btn" data-type="btn-toggle" data-id="fan2"><span>Fan</span></div>
+        <div class="btn" data-type="btn-toggle" data-id="par2"><span>Par</span></div>
+        <div class="btn" data-type="btn-toggle" data-id="acl2"><span>ACL</span></div>
+    </div>
+    <div class="grp srf">
+        <div class="fdr">
+            <div class="lbl">Rook</div>
+            <input type="range" id="fogMaster" min="1" max="255" value="255">
+        </div>
+        <div class="fdr">
+            <div class="lbl">Fan</div>
+            <input type="range" id="fanMaster" min="1" max="255" value="255">
         </div>
     </div>
-
-    <div class="control-group">
-        <h1>Riser 2</h1>
-        <div class="btn-group">
-            <button class="btn btn-xxlarge" data-type="channel" data-id="fog2">Rook</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="fan2">Fan</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="par2">Par</button>
-            <button class="btn btn-xxlarge" data-type="channel" data-id="acl21,acl22,acl23,acl24">ACL</button>
-        </div>
+    <div class="grp led">
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ffffff"><span>White</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ff0000"><span>Red</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#00ff00"><span>Green</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#0000ff"><span>Blue</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#00ffff"><span>Cyan</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ff00ff"><span>Magenta</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ffff00"><span>Yellow</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ff9900"><span>Orange</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#ff0000,#ffffff,#0000ff"><span>Vlag</span></div>
+        <div class="btn" data-type="ledpreset" data-fade="0" data-value="#000000"><span>Black</span></div>
     </div>
 
-    <div class="control-group">
-        <h1>LED snap</h1>
-        <div class="btn-group">
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ffffff">White</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ff0000">Red</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#00ff00">Green</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#0000ff">Blue</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#00ffff">Cyan</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ff00ff">Magenta</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ffff00">Yellow</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ff9900">Orange</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#ff0000,#ffffff,#0000ff">Vlag</button>
-            <button class="btn" data-type="ledpreset" data-fade="0" data-value="#000000">Black</button>
-        </div>
-    </div>
+    <script type="text/javascript">
+        window.onload = function() {
+            var dmxInterface = new PureAjaxInterface("http://192.168.1.40/");
 
-    <div class="control-group">
-        <h1>LED fade</h1>
-        <div class="btn-group">
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ffffff">White</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ff0000">Red</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#00ff00">Green</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#0000ff">Blue</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#00ffff">Cyan</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ff00ff">Magenta</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ffff00">Yellow</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ff9900">Orange</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#ff0000,#ffffff,#0000ff">Vlag</button>
-            <button class="btn" data-type="ledpreset" data-fade="3000" data-value="#000000">Black</button>
-        </div>
-    </div>
+            var controller = new PureController({
+                mapping: {
+                    fan1: { type: 'dimmer', address: 33 },
+                    fog1: { type: 'dimmer', address: 29 },
+                    par1: { type: 'dimmer', address: 34 },
+                    acl11: { type: 'dimmer', address: 41 },
+                    acl12: { type: 'dimmer', address: 42 },
+                    acl13: { type: 'dimmer', address: 43 },
+                    acl14: { type: 'dimmer', address: 44 },
+                    switch1: { type: 'dimmer', address: 49 },
 
-    <div class="control-group">
-        <h1>LED FX</h1>
-        <div class="btn-group">
-            <button class="btn btn-xxlarge" data-type="anim" data-effect="strobe" data-group="leds" data-params="30,#000000">STR<span>(30ms,black)</span></button>
-            <button class="btn btn-xxlarge" data-type="anim" data-effect="strobe" data-group="leds" data-params="50,#ffffff">STR<span>(50ms,white)</span></button>
-            <button class="btn btn-xxlarge" data-type="anim" data-effect="marquee" data-group="leds" data-params="200|1|#ffff00,#ff0000,#ff0000,#ff0000,#ff0000,#ff0000">Loop<span>(ge/ro)</span></button>
-            <button class="btn btn-xxlarge" data-type="anim" data-effect="marquee" data-group="leds" data-params="200|-1|#ffff00,#ff0000,#ff0000,#ff0000,#ff0000,#ff0000">Loop<span>(ge/ro)</span></button>
-        </div>
-    </div>
+                    fan2: { type: 'dimmer', address: 31 },
+                    fog2: { type: 'dimmer', address: 28 },
+                    par2: { type: 'dimmer', address: 32 },
+                    acl21: { type: 'dimmer', address: 37 },
+                    acl22: { type: 'dimmer', address: 38 },
+                    acl23: { type: 'dimmer', address: 39 },
+                    acl24: { type: 'dimmer', address: 40 },
+                    switch2: { type: 'dimmer', address: 50 },
 
+                    led11: { type: 'rgb', address: 1 },
+                    led12: { type: 'rgb', address: 4 },
+                    led13: { type: 'rgb', address: 7 },
 
-
-    <h2>Preview</h2>
-    <div id="riser1" class="riser">
-        <div class="acl acl1" data-type="output" data-bind="acl11"></div>
-        <div class="acl acl2" data-type="output" data-bind="acl12"></div>
-        <div class="acl acl3" data-type="output" data-bind="acl13"></div>
-        <div class="acl acl4" data-type="output" data-bind="acl14"></div>
-        <div class="par" data-type="output" data-bind="par1">P</div>
-        <div class="fan" data-type="output" data-bind="fan1">F</div>
-        <div class="fog" data-type="output" data-bind="fog1">R</div>
-    </div>
-    <div id="rgb-preview1" class="rgb-preview">
-        <div class="line1" data-type="output-rgb" data-bind="led11"></div>
-        <div class="line2" data-type="output-rgb" data-bind="led12"></div>
-        <div class="line3" data-type="output-rgb" data-bind="led13"></div>
-    </div>
-    <div id="rgb-preview2" class="rgb-preview">
-        <div class="line1" data-type="output-rgb" data-bind="led21"></div>
-        <div class="line2" data-type="output-rgb" data-bind="led22"></div>
-        <div class="line3" data-type="output-rgb" data-bind="led23"></div>
-    </div>
-    <div id="riser2" class="riser">
-        <div class="acl acl1" data-type="output" data-bind="acl21"></div>
-        <div class="acl acl2" data-type="output" data-bind="acl22"></div>
-        <div class="acl acl3" data-type="output" data-bind="acl23"></div>
-        <div class="acl acl4" data-type="output" data-bind="acl24"></div>
-        <div class="par" data-type="output" data-bind="par2">P</div>
-        <div class="fan" data-type="output" data-bind="fan2">F</div>
-        <div class="fog" data-type="output" data-bind="fog2">R</div>
-    </div>
-    <div id="interface-status" class="unknown"></div>
-
-<script type="text/javascript">
-    window.onload = function() {
-        var dmxInterface = new PureWebSocketInterface();
-        var controller = new PureController({
-            mapping: {
-                fan1: { type: 'dimmer', address: 1 },
-                fog1: { type: 'dimmer', address: 3 },
-                par1: { type: 'dimmer', address: 5 },
-                acl11: { type: 'dimmer', address: 7 },
-                acl12: { type: 'dimmer', address: 8 },
-                acl13: { type: 'dimmer', address: 9 },
-                acl14: { type: 'dimmer', address: 10 },
-                switch1: { type: 'dimmer', address: 15 },
-
-                fan2: { type: 'dimmer', address: 2 },
-                fog2: { type: 'dimmer', address: 4 },
-                par2: { type: 'dimmer', address: 6 },
-                acl21: { type: 'dimmer', address: 11 },
-                acl22: { type: 'dimmer', address: 12 },
-                acl23: { type: 'dimmer', address: 13 },
-                acl24: { type: 'dimmer', address: 14 },
-                switch2: { type: 'dimmer', address: 16 },
-
-                led11: { type: 'rgb', address: 100 },
-                led12: { type: 'rgb', address: 105 },
-                led13: { type: 'rgb', address: 110 },
-
-                led21: { type: 'rgb', address: 200 },
-                led22: { type: 'rgb', address: 205 },
-                led23: { type: 'rgb', address: 210 }
-            },
-            groups: {
-                leds: [ 'led11','led12','led13','led21','led22','led23']
-            },
-            interface: dmxInterface
-        });
-        controller.init();
-        //dmxInterface.socket.open();
-    };
-</script>
+                    led21: { type: 'rgb', address: 10 },
+                    led22: { type: 'rgb', address: 13 },
+                    led23: { type: 'rgb', address: 16 }
+                },
+                groups: {
+                    leds: [ 'led11','led12','led13','led21','led22','led23']
+                },
+                interface: dmxInterface
+            });
+        };
+    </script>
 </body>
 </html>
