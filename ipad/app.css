@@ -29,6 +29,8 @@ body, .grp, h1 {
     vertical-align: middle;
 }
 
+
+
 .btn span, .sbtn span {
     margin: auto;
     position: absolute;
@@ -51,6 +53,27 @@ body, .grp, h1 {
     float: left;
     height: 100%;
     position: relative;
+}
+
+.sbtn.fog2 {
+  width: 11%;
+  margin-right: 1%;
+  margin-left: 1%;
+  background-color: #696969;
+  float: left;
+  height: 15.6%;
+  position: absolute;
+  z-index: 9;
+  top: 8.4%;
+  left: 94%;
+  text-align: center;
+}
+
+.sbtn.sm {
+  width: 27%;
+}
+.srl .sbtn.sm {
+  margin-left: 5%;
 }
 
 .grp.sr {

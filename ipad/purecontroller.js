@@ -160,6 +160,10 @@ PureController.prototype.addFogButtonHandlers = function() {
                 var timerActive = button.classList.contains('active');
                 fnRelease(superButton);
 
+                if (e.forceToggle) {
+                  timerActive = false;
+                }
+
                 if (!timerActive) {
                     self.toggleOutputByName(name, true);
                     self.timers[name] = window.setTimeout(function() {
@@ -183,6 +187,17 @@ PureController.prototype.addFogButtonHandlers = function() {
         //buttons[i].addEventListener('mouseup', fnUp)
         buttons[i].addEventListener('touchend', fnUp)
     }
+
+    var timedBothBtn = document.getElementById('btn-fog-both-timed');
+    timedBothBtn.addEventListener('touchstart', function() {
+        var fogButtons = document.querySelectorAll('[data-type=sbtn-timed]');
+        for(var i=0;i<fogButtons.length;i++) {
+          event = document.createEvent("HTMLEvents");
+          event.initEvent("touchend", true, true);
+          event.forceToggle = true;
+          fogButtons[i].dispatchEvent(event);
+        }
+    });
 }
 
 PureController.prototype.toggleOutputByName = function(name, enabled) {
