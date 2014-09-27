@@ -16,6 +16,7 @@ PureController.prototype.init = function() {
     var self = this;
 
     this.addToggleButtonHandlers();
+    this.addFlashButtonHandlers();
     this.addFogButtonHandlers();
     this.addLedButtonHandlers();
     this.addFaderHandlers();
@@ -46,6 +47,39 @@ PureController.prototype.addToggleButtonHandlers = function() {
         button.classList.remove('mousedown');
         var name = button.getAttribute('data-id');
         self.toggleOutputByName(name, output);
+
+    }
+
+    for(var i=0;i<buttons.length;i++) {
+
+        //buttons[i].addEventListener('mousedown', fnDown);
+        buttons[i].addEventListener('touchstart', fnDown);
+        //buttons[i].addEventListener('mouseup', fnUp)
+        buttons[i].addEventListener('touchend', fnUp)
+    }
+}
+
+PureController.prototype.addFlashButtonHandlers = function() {
+    var self = this;
+    var buttons = document.querySelectorAll('[data-type=btn-flash]');
+
+    var fnDown = function(e) {
+        var button = e.target;
+        if (button.tagName == 'SPAN') button = button.parentNode;
+
+        button.classList.add('active');
+        var name = button.getAttribute('data-id');
+        self.toggleOutputByName(name, true);
+    };
+
+    var fnUp = function(e) {
+
+        var button = e.target;
+        if (button.tagName == 'SPAN') button = button.parentNode;
+
+        button.classList.remove('active');
+        var name = button.getAttribute('data-id');
+        self.toggleOutputByName(name, false);
 
     }
 
@@ -168,6 +202,29 @@ PureController.prototype.toggleOutputByName = function(name, enabled) {
             this.setOutputByName(name+'4', value);
             this.setActiveState(name, value > 0);
             return;
+        case 'wod':
+            this.setOutputByName('w1', value);
+            this.setOutputByName('w3', value);
+            this.setOutputByName('w5', value);
+            this.setOutputByName('w7', value);
+            return;
+        case 'wev':
+            this.setOutputByName('w2', value);
+            this.setOutputByName('w4', value);
+            this.setOutputByName('w6', value);
+            this.setOutputByName('w8', value);
+            return;
+        case 'wal':
+            this.setOutputByName('w1', value);
+            this.setOutputByName('w2', value);
+            this.setOutputByName('w3', value);
+            this.setOutputByName('w4', value);
+            this.setOutputByName('w5', value);
+            this.setOutputByName('w6', value);
+            this.setOutputByName('w7', value);
+            this.setOutputByName('w8', value);
+            return;
+
     }
 
     this.setOutputByName(name, value);

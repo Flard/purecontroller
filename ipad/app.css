@@ -40,7 +40,7 @@ body, .grp, h1 {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 70%;
+    height: 65%;
 }
 
 .btn .sbtn {
@@ -56,7 +56,7 @@ body, .grp, h1 {
 .grp.sr {
     position: absolute;
     top: 1%;
-    height: 70%;
+    height: 65%;
     width: 48.5%;
 }
 
@@ -76,9 +76,29 @@ body, .grp, h1 {
     right: 1%;
 }
 
+.grp.srw {
+   position: absolute;
+   bottom: 20%;
+   width: 98%;
+   left: 1%;
+   height: 14%;
+}
+
+.srw .btn {
+    width: 33%;
+    margin-left: 1%;
+    height: 100%;
+    float: left;
+}
+
+.srw .btn:first-child {
+    margin-left: 0;
+    width: 32%;
+}
+
 .grp.srf {
     position: absolute;
-    bottom: 20%;
+    bottom: 10%;
     height: 10%;
     width: 98%;
     left: 1%;
@@ -99,7 +119,7 @@ body, .grp, h1 {
     left: 1%;
     width: 98%;
     bottom: 1%;
-    height: 19%;
+    height: 9%;
 }
 
 .grp.led .btn {

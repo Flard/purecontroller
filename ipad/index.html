@@ -36,6 +36,11 @@
         <div class="btn" data-type="btn-toggle" data-id="par2"><span>Par</span></div>
         <div class="btn" data-type="btn-toggle" data-id="acl2"><span>ACL</span></div>
     </div>
+    <div class="grp srw">
+        <div class="btn" data-type="btn-flash" data-id="wod"><span>W Odd</span></div>
+        <div class="btn" data-type="btn-flash" data-id="wev"><span>W Even</span></div>
+        <div class="btn" data-type="btn-flash" data-id="wal"><span>W All</span></div>
+    </div>
     <div class="grp srf">
         <div class="fdr">
             <div class="lbl">Rook</div>
@@ -89,7 +94,16 @@
 
                     led21: { type: 'rgb', address: 10 },
                     led22: { type: 'rgb', address: 13 },
-                    led23: { type: 'rgb', address: 16 }
+                    led23: { type: 'rgb', address: 16 },
+
+                    w1: { type: 'dimmer', address: 51},
+                    w2: { type: 'dimmer', address: 52},
+                    w3: { type: 'dimmer', address: 53},
+                    w4: { type: 'dimmer', address: 54},
+                    w5: { type: 'dimmer', address: 55},
+                    w6: { type: 'dimmer', address: 56},
+                    w7: { type: 'dimmer', address: 57},
+                    w8: { type: 'dimmer', address: 58},
                 },
                 groups: {
                     leds: [ 'led11','led12','led13','led21','led22','led23']
